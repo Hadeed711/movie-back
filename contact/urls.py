@@ -2,9 +2,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import ContactViewSet
 
-router = DefaultRouter()
-router.register(r'', ContactViewSet, basename='contact')
-
+# We're not going to use this router since the main urls.py already has it
+# This is to avoid conflicts between the two routers
 urlpatterns = [
-    path('', include(router.urls)),
+    # Empty - the main urls.py will handle contact routes
 ]

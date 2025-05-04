@@ -4,4 +4,5 @@ from .models import Favorite
 class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
-        fields = ['id', 'user', 'movie_id', 'movie_title']
+        fields = ['id', 'movie_id', 'movie_title', 'movie_poster', 'created_at']
+        read_only_fields = ['created_at']

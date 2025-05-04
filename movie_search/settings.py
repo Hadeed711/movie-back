@@ -1,29 +1,33 @@
 from pathlib import Path
-from decouple import config, Csv
+from decouple import config
 import os
+from corsheaders.defaults import default_headers
 
 
-# Base directory path
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Authorization',
+    'Content-Type',
+]
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG mode - default is False for safety
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# Allowed hosts (add your production domain)
-ALLOWED_HOSTS = ['movie-search-app-orcin-one.vercel.app', '127.0.0.1', 'localhost']
-
-
-ROOT_URLCONF = 'movie_search.urls'
-
-# Custom user model for authentication
-AUTH_USER_MODEL = 'users.CustomUser'
+# Allowed hosts - add your frontend domain and localhost
+ALLOWED_HOSTS = [
+    'movie-search-app-orcin-one.vercel.app',
+    '127.0.0.1',
+    'localhost'
+]
 
 # Application definition
 INSTALLED_APPS = [
-    # Default Django apps
+    # Django default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third-party apps
+    # Third-party
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
@@ -39,43 +43,37 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
 
     # Your apps
-    'users',
     'favorites',
     'contact',
 ]
-SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
-}
-DJOSER = {
-    'LOGIN_FIELD': 'email',
-    'USER_CREATE_PASSWORD_RETYPE': True,
-    'SERIALIZERS': {},
-}
-# Django Rest Framework settings
-# from rest_framework_simplejwt.authentication import JWTAuthentication
 
+# REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
 }
 
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
+}
 
 # Middleware
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-#templates
+
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -92,13 +90,16 @@ TEMPLATES = [
     },
 ]
 
-# Database configuration (ensure to set these in your environment variables)
+ROOT_URLCONF = 'movie_search.urls'
+WSGI_APPLICATION = 'movie_search.wsgi.application'
+
+# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='movie_search_db'),
-        'USER': config('DB_USER', default='your_db_user'),
-        'PASSWORD': config('DB_PASSWORD', default='your_db_password'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST', default='localhost'),
         'PORT': config('DB_PORT', default='5432'),
     }
@@ -106,48 +107,43 @@ DATABASES = {
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Static and media files (ensure the static files are served correctly in production)
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = True
+USE_TZ = True
+
+# Static and media files
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# CORS configuration
+# CORS settings
 CORS_ALLOWED_ORIGINS = [
-    'https://movie-search-app-orcin-one.vercel.app',"http://localhost:3000","http://localhost:5173", 
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:8000",
+    "https://movie-search-app-orcin-one.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
-# Secure cookies settings for production
-if not DEBUG:
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
-    SECURE_SSL_REDIRECT = True
-else:
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
-    SECURE_SSL_REDIRECT = False
-X_FRAME_OPTIONS = 'DENY'  # Prevent embedding of the site in frames
 
-# Internationalization settings
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
+# Secure cookie and HTTPS settings
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
+SECURE_SSL_REDIRECT = False
 
-# Default primary key field type
+DEBUG = True 
+# Security headers
+X_FRAME_OPTIONS = 'DENY'
+
+# Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CORS_PREFLIGHT_MAX_AGE = 86400
