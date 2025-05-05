@@ -49,13 +49,11 @@ INSTALLED_APPS = [
 
 # REST Framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        'rest_framework.permissions.AllowAny',  # Allow anyone to access the API
     ],
 }
+
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
