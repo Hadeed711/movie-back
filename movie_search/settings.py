@@ -27,6 +27,8 @@ ALLOWED_HOSTS = [
 
 # Application definition
 INSTALLED_APPS = [
+    'admin_interface',
+    'colorfield',
     # Django default
     'django.contrib.admin',
     'django.contrib.auth',
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
     # Your apps
     'favorites',
     'contact',
+
 ]
 
 # REST Framework
@@ -75,7 +78,7 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,9 +120,12 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static and media files
+# URL to use when referring to static files (e.g. in a browser)
 STATIC_URL = '/static/'
+
+# The directory where static files will be collected to
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -138,7 +144,7 @@ CSRF_COOKIE_SECURE = False
 SESSION_COOKIE_SECURE = False
 SECURE_SSL_REDIRECT = False
 
-DEBUG = False
+# DEBUG = False
 # Security headers
 X_FRAME_OPTIONS = 'DENY'
 
