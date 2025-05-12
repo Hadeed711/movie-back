@@ -19,11 +19,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Allowed hosts - add your frontend domain and localhost
-ALLOWED_HOSTS = [
-    'movie-search-app-orcin-one.vercel.app',
-    '127.0.0.1',
-    'localhost'
-]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -96,16 +92,12 @@ ROOT_URLCONF = 'movie_search.urls'
 WSGI_APPLICATION = 'movie_search.wsgi.application'
 
 # Database
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-    }
+    'default': dj_database_url.config(default=config('DATABASE_URL'))
 }
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -139,7 +131,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost:5173",
     "http://localhost:8000",
-    "https://movie-search-app-orcin-one.vercel.app",
+    "https://movie-search-7dqlfl8oi-hadeed711s-projects.vercel.app/",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
