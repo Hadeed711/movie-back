@@ -128,9 +128,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://localhost:8000",
      "https://movie-search-7dqlfl8oi-hadeed711s-projects.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
