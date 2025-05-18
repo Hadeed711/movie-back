@@ -60,8 +60,8 @@ SIMPLE_JWT = {
 
 # Middleware
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,7 +128,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-     "https://movie-search-7dqlfl8oi-hadeed711s-projects.vercel.app",
+     "https://movie-search-app-ten-eta.vercel.app/",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
