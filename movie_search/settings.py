@@ -43,16 +43,19 @@ INSTALLED_APPS = [
     # Your apps
     'favorites',
     'contact',
+    'users.apps.UsersConfig',
 
 ]
 
 # REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Allow anyone to access the API
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 }
-
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
@@ -70,7 +73,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'users.serializers.UserCreateSerializer',
+        'user': 'users.serializers.UserSerializer',
+        'current_user': 'users.serializers.UserSerializer',
+    },
+    'PERMISSIONS': {
+        'user': ['rest_framework.permissions.IsAuthenticated'],
+        'user_list': ['rest_framework.permissions.AllowAny'],
+    }
+}
 # Templates
 TEMPLATES = [
     {
@@ -147,3 +160,4 @@ X_FRAME_OPTIONS = 'DENY'
 # Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_PREFLIGHT_MAX_AGE = 86400
+AUTH_USER_MODEL = 'users.User'  # Use custom user model

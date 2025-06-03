@@ -28,9 +28,9 @@ router.register(r'contact', ContactViewSet, basename='contact')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/auth/', include('djoser.urls')),
+    path('api/auth/', include('djoser.urls.jwt')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    # Remove the include for contact.urls since we have it in the router
-    # path('api/contact/', include('contact.urls')),
-    path('api/', include(router.urls)),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/favorites/', include('favorites.urls')),
 ]
