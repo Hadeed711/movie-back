@@ -147,6 +147,8 @@ CORS_ALLOWED_ORIGINS = [
      "https://movie-search-app-ten-eta.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_CREDENTIALS = True
+
 
 # Secure cookie and HTTPS settings
 CSRF_COOKIE_SECURE = True
