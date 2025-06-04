@@ -3,8 +3,8 @@ from rest_framework.routers import DefaultRouter
 from .views import FavoriteViewSet
 
 router = DefaultRouter()
-router.register(r'', FavoriteViewSet, basename='favorite')  # No 'favourites' here
+router.register(r'favourites', FavoriteViewSet, basename='favourite')
 
 urlpatterns = [
-    path('', include(router.urls)),  # No 'api/' prefix here
+    path('api/', include(router.urls)),
 ]
