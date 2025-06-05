@@ -2,7 +2,7 @@ from pathlib import Path
 from decouple import config
 import os
 from corsheaders.defaults import default_headers
-
+from datetime import timedelta
 
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -58,7 +58,10 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT",),
+    "AUTH_HEADER_TYPES": ("Bearer",),  # ✅ Changed from "JWT" to "Bearer"
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
 }
 
 # Middleware

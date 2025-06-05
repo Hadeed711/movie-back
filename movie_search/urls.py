@@ -1,18 +1,5 @@
 """
 URL configuration for movie_search project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.2/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.contrib import admin
@@ -28,11 +15,18 @@ router.register(r'contact', ContactViewSet, basename='contact')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # ✅ Fixed: Add both regular djoser urls and JWT urls
+    path('auth/', include('djoser.urls')),           # This gives us /auth/users/
+    path('auth/', include('djoser.urls.jwt')),       # This gives us /auth/jwt/create/, /auth/jwt/refresh/, etc.
+    
+    # ✅ Keep your custom user URLs if needed
     path('api/auth/', include('users.urls')),
-    path('api/auth/', include('djoser.urls')),
+    
+    # ✅ Alternative JWT endpoints (you can keep these as backup)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
-    # Include router urls here:
+    # Include router urls
     path('api/', include(router.urls)),
 ]
