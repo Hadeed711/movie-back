@@ -169,3 +169,9 @@ X_FRAME_OPTIONS = 'DENY'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_PREFLIGHT_MAX_AGE = 86400
 AUTH_USER_MODEL = 'users.User'  # Use custom user model
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load .env variables
+COHERE_API_KEY = os.getenv("COHERE_API_KEY")
