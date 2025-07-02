@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register(r'favourites', FavoriteViewSet, basename='favourite')
 
 urlpatterns = [
-    path('api/', include(router.urls)),
-    path('/recommend/', ai_recommend_view),  
+    path('', include(router.urls)),            
+    path('recommend/', ai_recommend_view),     
 ]
