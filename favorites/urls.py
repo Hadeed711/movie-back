@@ -7,5 +7,5 @@ router.register(r'favourites', FavoriteViewSet, basename='favourite')
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('api/recommend/', ai_recommend_view),  
+    path('/recommend/', ai_recommend_view),  
 ]

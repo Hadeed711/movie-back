@@ -29,4 +29,5 @@ urlpatterns = [
     
     # Include router urls
     path('api/', include(router.urls)),
+    path('api/', include('favorites.urls')),
 ]
